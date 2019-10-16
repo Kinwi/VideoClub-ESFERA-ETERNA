@@ -22,6 +22,12 @@ namespace VideoClub
 
         public DateTime FechaNacimiento { get; set; }
 
+        public Usuario(DateTime fechaNacimiento)
+        {
+            FechaNacimiento = fechaNacimiento;
+        }
+
+
         // Constructor vacio de Usuario (Por si es necesario utilizar en un futuro)
 
         public Usuario()
@@ -129,15 +135,15 @@ namespace VideoClub
              }
 
 
-            public void verPeliculasDisponibles(DateTime FechaNacimiento)
+            public void verPeliculasDisponibles()
             {
-                Console.WriteLine("Peliculas Disponibles");
-                Console.WriteLine();
-                 DateTime fechaNacimiento = Convert.ToDateTime(Console.ReadLine());
-                 int edadDias = ((TimeSpan)(DateTime.Now - fechaNacimiento)).Days;
+          
+                 
+                 int edadDias = ((TimeSpan)(DateTime.Now - FechaNacimiento)).Days;
                  int edadAños = edadDias / 365;
 
-                string selectPeliculas = $"SELECT  * FROM Peliculas" ;
+
+                string selectPeliculas = $"SELECT  * FROM Pelicula" ;
                 SqlCommand command = new SqlCommand(selectPeliculas, connection);
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -146,23 +152,25 @@ namespace VideoClub
                  while (reader.Read())
                  {
                   peliculas.Add(new Pelicula(Convert.ToInt32(reader[0].ToString()),reader[1].ToString(),reader[2].ToString(),Convert.ToInt32(reader[3].ToString()),reader[4].ToString()));
-                 connection.Close();
-                 }
+                  }
+                connection.Close();
+            
 
-                foreach (var pelicula in peliculas)
+            foreach (var pelicula in peliculas)
                 {
-                     if (pelicula.EdadRecomendada == edadAños)
+                     if (pelicula.EdadRecomendada <= edadAños)
                      {
+                       
                         Console.WriteLine("***************************************************");
-                        Console.WriteLine($"Titulo {pelicula.Titulo} ");
-                        Console.WriteLine($"Titulo {pelicula.Sinopsis} ");
-                        Console.WriteLine($"Titulo {pelicula.EdadRecomendada} ");
-                        Console.WriteLine($"Titulo {pelicula.Estado} ");
+                        Console.WriteLine($"Titulo----- {pelicula.Titulo} ");
+                        Console.WriteLine($"Sinopsis -----{pelicula.Sinopsis} ");
+                        Console.WriteLine($"Edad Recomendada -------- {pelicula.EdadRecomendada} ");
+                        Console.WriteLine($"Estado --------{pelicula.Estado} ");
                         Console.WriteLine("***************************************************");
                       }
                 }
 
-
+            
 
 
 

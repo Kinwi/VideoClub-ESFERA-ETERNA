@@ -48,7 +48,7 @@ namespace VideoClub
                     if ((usuarioLogin.ComprobarEmail() == true) && (usuarioLogin.ComprobarContraseña() == true))
                     {
                         Console.Clear();
-                        Videoclub();
+                        Videoclub(usuarioLogin);
                     }
 
                     else
@@ -104,7 +104,7 @@ namespace VideoClub
 
         // METODO - MENU VIDEOCLUB -
 
-        public static void Videoclub()
+        public static void Videoclub(Usuario usuarioLogin)
         {
                 
                
@@ -128,7 +128,8 @@ namespace VideoClub
             switch (select)
              {
                 case 1:
-                    //verPelicularDisponibles(); // Metodo para que el usuario vea las peliculas disponibles
+                   
+                    usuarioLogin.verPeliculasDisponibles();
                     break;
                 case 2:
                     //alquilarPelicula(); // Metodo para alquilar pelicula
