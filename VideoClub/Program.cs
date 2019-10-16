@@ -23,27 +23,36 @@ namespace VideoClub
 
             // LOGIN VIDEOCLUB
 
-            Console.WriteLine("LOGIN VIDEOCLUB ESFERA");
             Console.WriteLine();
-            Console.WriteLine("MENU");
-            Console.WriteLine("1.Iniciar Sesion");
-            Console.WriteLine("2.Registrese");
-            Console.WriteLine("3.Salir");
             Console.WriteLine();
-            Console.WriteLine("Introduca el numero asociado a la accion");
-            Console.WriteLine("Iniciar Sesion (1)-------------Registrese(2)----------Salir(3)");
+            Console.WriteLine("                                       LOGIN VIDEOCLUB ESFERA");
+            Console.WriteLine();
+            Console.WriteLine("                                                MENU");
+            Console.WriteLine("                                          1.Iniciar Sesion");
+            Console.WriteLine("                                           2.Registrese");
+            Console.WriteLine("                                              3.Salir");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("                               Introduca el numero asociado a la accion");
+            Console.WriteLine("                     Iniciar Sesion (1)-------------Registrese(2)----------Salir(3)");
 
             int select = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
 
             switch (select)
             {
                 case 1:
-                    Console.WriteLine(" LOGIN - VIDEOCLUB LA ESFERA ETERNA - ");
-                    Console.Write("Introduzca su email   ");
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine("                                   LOGIN                        ");
+                    Console.WriteLine();
+                    Console.Write("          Introduzca su email   ");
                     string email = Console.ReadLine();
-                    Console.Write("Introduzca su contraseña       ");
+                    Console.Write("         Introduzca su contraseña       ");
                     string contraseña = Console.ReadLine();
                     Usuario usuarioLogin = new Usuario(contraseña, email);
+                    Console.Clear();
 
                     if ((usuarioLogin.ComprobarEmail() == true) && (usuarioLogin.ComprobarContraseña() == true))
                     {
@@ -106,33 +115,36 @@ namespace VideoClub
 
         public static void Videoclub(Usuario usuarioLogin)
         {
-                
-               
+
+
 
 
 
             // MENU VIDEOCLUB
-
-                Console.WriteLine("BienvenidO a el VIDEOCLUB ESFERA ETERNA");
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("                          Bienvenido a el VIDEOCLUB ESFERA ETERNA");
                 Console.WriteLine("");
-                Console.WriteLine("MENU");
-                Console.WriteLine("1.Ver Peliculas Disponibles");
-                Console.WriteLine("2.Alquilar Pelicula");
-                Console.WriteLine("3.Mis Alquileres");
-                Console.WriteLine("4.Logout");
+                Console.WriteLine("                                          MENU");
+                Console.WriteLine("                             1.Ver Peliculas Disponibles");
+                Console.WriteLine("                                 2.Alquilar Pelicula");
+                Console.WriteLine("                                   3.Mis Alquileres");
+                Console.WriteLine("                                        4.Logout");
                 Console.WriteLine("");
                 Console.WriteLine("");
-                Console.WriteLine("Introduzca el NUMERO asociado a la accion deL MENU");
-                int select = Convert.ToInt32(Console.ReadLine());
-
+                Console.WriteLine("                               Introduca el numero asociado a la accion");
+                Console.WriteLine();
+                Console.WriteLine("  Ver Peliculas Disponibles (1)-------------AlquilarPeliculas(2)----------Mis Alquileres(3)--------Logout(4)");
+            int select = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
             switch (select)
              {
                 case 1:
-                   
+                    Console.WriteLine($"PELICULAS SELECCIONADAS PARA TI ");
                     usuarioLogin.verPeliculasDisponibles();
                     break;
                 case 2:
-                    //alquilarPelicula(); // Metodo para alquilar pelicula
+                    //usuarioLogin.alquilarPelicula(); // Metodo para alquilar pelicula
                     break;
 
                 case 3:

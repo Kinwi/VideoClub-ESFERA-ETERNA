@@ -137,7 +137,6 @@ namespace VideoClub
 
             public void verPeliculasDisponibles()
             {
-          
                  
                  int edadDias = ((TimeSpan)(DateTime.Now - FechaNacimiento)).Days;
                  int edadAños = edadDias / 365;
@@ -158,21 +157,70 @@ namespace VideoClub
 
             foreach (var pelicula in peliculas)
                 {
-                     if (pelicula.EdadRecomendada <= edadAños)
+                     if (pelicula.EdadRecomendada <= edadAños && pelicula.Estado == "D")
                      {
-                       
+                          
+                        Console.WriteLine();
                         Console.WriteLine("***************************************************");
                         Console.WriteLine($"Titulo----- {pelicula.Titulo} ");
                         Console.WriteLine($"Sinopsis -----{pelicula.Sinopsis} ");
                         Console.WriteLine($"Edad Recomendada -------- {pelicula.EdadRecomendada} ");
                         Console.WriteLine($"Estado --------{pelicula.Estado} ");
                         Console.WriteLine("***************************************************");
+                        Console.WriteLine();
                       }
                 }
 
-            
+
+            }
+
+           public void alquilarPelicula()
+           {
+
+            // FALTA CONSEGUIR EL ID DE USUARIO
+
+            int edadDias = ((TimeSpan)(DateTime.Now - FechaNacimiento)).Days;
+            int edadAños = edadDias / 365;
 
 
+            string selectPeliculas = $"SELECT  * FROM Pelicula WHERE Estado ='D'";
+            SqlCommand command = new SqlCommand(selectPeliculas, connection);
+            connection.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            List<Pelicula> peliculas = new List<Pelicula>();
+
+            while (reader.Read())
+            {
+                peliculas.Add(new Pelicula(Convert.ToInt32(reader[0].ToString()), reader[1].ToString(), reader[2].ToString(), Convert.ToInt32(reader[3].ToString()), reader[4].ToString()));
+                
+            }
+            connection.Close();
+
+            // Se muestran las peliculas "Estado" = D y que entran en los parametros de la  "Edad Recomendada" del Usuario
+
+            foreach (var pelicula in peliculas)
+            {
+                if (pelicula.EdadRecomendada <= edadAños)
+                {
+
+                    Console.WriteLine("***************************************************");
+                    Console.WriteLine($"Titulo----- {pelicula.Titulo} ");
+                    Console.WriteLine($"Sinopsis -----{pelicula.Sinopsis} ");
+                    Console.WriteLine($"Edad Recomendada -------- {pelicula.EdadRecomendada} ");
+                    Console.WriteLine($"Estado --------{pelicula.Estado} ");
+                    Console.WriteLine("***************************************************");
+                }
+            }
+
+            connection.Open();
+            Console.WriteLine("Introduzca la pelicula a Alquilar . Ejemplo 3");
+            int peliculaAlquilada = Convert.ToInt32(Console.ReadLine());
+            DateTime fechaAlquiler = DateTime.Now; // Fecha Alquiler = Fecha Hoy
+            DateTime fechaDevolucion = DateTime.Now.AddDays(5);// Fecha Devolucion = Fecha Hoy + 5
+            string actualizarAlquiler= $"UPDATE Peliculas SET Estado = 'ND' WHERE IDPelicula = '{peliculaAlquilada}'INSERT INTO Alquiler (IdPelicula,IdUsuario,FechaInicialAlquiler,FechaFinalAlquiler) VALUES ('{peliculaAlquilada}','{IDUsuario}','{fechaAlquiler}','{fechaDevolucion}')";
+            SqlCommand command2 = new SqlCommand(actualizarAlquiler, connection);
+            Console.WriteLine(command2.ExecuteNonQuery());
+            connection.Close();
 
 
 

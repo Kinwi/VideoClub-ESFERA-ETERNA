@@ -35,7 +35,8 @@ namespace VideoClub
             FechaInicialAlquiler = fechaInicialAlquiler;
             FechaFinalAlquiler = fechaFinalAlquiler;
         }
+
+        
     }
 
-    // Espacio para los posibles metodos de la clase Alquiler
 }
