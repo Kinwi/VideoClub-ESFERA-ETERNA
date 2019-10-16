@@ -20,7 +20,7 @@ namespace VideoClub
 
         public string Email { get; set; }
 
-        public string FechaNacimiento { get; set; }
+        public DateTime FechaNacimiento { get; set; }
 
         // Constructor vacio de Usuario (Por si es necesario utilizar en un futuro)
 
@@ -29,6 +29,18 @@ namespace VideoClub
 
         }
 
+        // Constructor para Insertar Usuarios en la base de datos (No lleva atributo "IdUsuario" al ser este autoincrementable en BBDD)
+        public Usuario(string nombre, string apellido, string contraseña, string email, DateTime fechaNacimiento) { 
+            Nombre = nombre;
+            Apellido = apellido;
+            Contraseña = contraseña;
+            Email = email;
+            FechaNacimiento = fechaNacimiento;
+        }
+
+
+
+        // Cosntructor utilizado para Login con solo dos atributos (Contraseña , Email)
         public Usuario(string contraseña, string email)
         {
             Contraseña = contraseña;
@@ -36,7 +48,7 @@ namespace VideoClub
         }
 
         // Constructor con todos los atributos de Usuario
-        public Usuario(int iDUsuario, string nombre, string apellido, string contraseña, string email, string fechaNacimiento)
+        public Usuario(int iDUsuario, string nombre, string apellido, string contraseña, string email, DateTime fechaNacimiento)
         {
             IDUsuario = iDUsuario;
             Nombre = nombre;
@@ -51,17 +63,19 @@ namespace VideoClub
 
         public bool ComprobarEmail()
         {
-            string buscarEmail = $"SELECT  * FROM Usuario WHERE Email= '{Email}'";
+            string buscarEmail = $"SELECT  * FROM Usuario WHERE Email = '{Email}'";
             SqlCommand command = new SqlCommand(buscarEmail, connection);
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
+                connection.Close();
                 return true;
                 
             }
             else
             {
+                connection.Close();
                 return false;
             }
 
@@ -76,16 +90,47 @@ namespace VideoClub
                 SqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    return true;
+                connection.Close();
+                return true;
 
                 }
                 else
                 {
-                    return false;
+                connection.Close();
+                return false;
                 }
 
             }
+
+            public bool RegistrarUsuario() {
+
+
+            string insertarUsuario = $"INSERT INTO Usuario (Nombre,Apellido,Contraseña,Email,FechaNacimiento) VALUES ('{Nombre}','{Apellido}','{Contraseña}','{Email}','{FechaNacimiento}')";
+            SqlCommand command = new SqlCommand(insertarUsuario, connection);
+            connection.Open();
+
+            if (command.ExecuteNonQuery() > 0)
+            {
+                Console.WriteLine("El clinte se ha introducido correctamente");
+                connection.Close();
+                return true;
+            }
+            else
+
+            {
+                Console.WriteLine("No se ha introducido el cliente");
+                connection.Close();
+                return false;
+            }
+
+            
+
+        }
+
+
+
     }
- }
+}
+ 
     
 
