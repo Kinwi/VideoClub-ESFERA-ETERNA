@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace VideoClub
 {
     class Alquiler
     {
+       
+        
         // Atributos , Getters y Setters de Alquiler
 
         public int IdAlquiler{ get; set; }
