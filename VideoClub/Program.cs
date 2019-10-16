@@ -47,6 +47,7 @@ namespace VideoClub
 
                     if ((usuarioLogin.ComprobarEmail() == true) && (usuarioLogin.ComprobarContraseña() == true))
                     {
+                        Console.Clear();
                         Videoclub();
                     }
 
@@ -78,8 +79,10 @@ namespace VideoClub
                     break;
 
                 case 3:
-                   
 
+                    Console.WriteLine("Gracias por utilizar nuestro Login");
+                    Console.Clear();
+                    Login();
                     break;
 
                 case 4:

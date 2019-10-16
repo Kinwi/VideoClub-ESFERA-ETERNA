@@ -102,35 +102,119 @@ namespace VideoClub
 
             }
 
-            public bool RegistrarUsuario() {
-
-
-            string insertarUsuario = $"INSERT INTO Usuario (Nombre,Apellido,Contraseña,Email,FechaNacimiento) VALUES ('{Nombre}','{Apellido}','{Contraseña}','{Email}','{FechaNacimiento}')";
-            SqlCommand command = new SqlCommand(insertarUsuario, connection);
-            connection.Open();
-
-            if (command.ExecuteNonQuery() > 0)
+            public bool RegistrarUsuario()
             {
-                Console.WriteLine("El clinte se ha introducido correctamente");
-                connection.Close();
-                return true;
-            }
-            else
 
-            {
-                Console.WriteLine("No se ha introducido el cliente");
-                connection.Close();
-                return false;
-            }
+
+                    string insertarUsuario = $"INSERT INTO Usuario (Nombre,Apellido,Contraseña,Email,FechaNacimiento) VALUES ('{Nombre}','{Apellido}','{Contraseña}','{Email}','{FechaNacimiento}')";
+                    SqlCommand command = new SqlCommand(insertarUsuario, connection);
+                    connection.Open();
+
+                    if (command.ExecuteNonQuery() > 0)
+                    {
+                        Console.WriteLine("El cliente se ha introducido correctamente");
+                        connection.Close();
+                        return true;
+                    }
+                    else
+
+                    {
+                        Console.WriteLine("No se ha introducido el cliente");
+                        connection.Close();
+                        return false;
+                    }
 
             
 
+             }
+
+
+            public void verPeliculasDisponibles(DateTime FechaNacimiento)
+            {
+                Console.WriteLine("Peliculas Disponibles");
+                Console.WriteLine();
+                 DateTime fechaNacimiento = Convert.ToDateTime(Console.ReadLine());
+                 int edadDias = ((TimeSpan)(DateTime.Now - fechaNacimiento)).Days;
+                 int edadAños = edadDias / 365;
+
+                string selectPeliculas = $"SELECT  * FROM Peliculas" ;
+                SqlCommand command = new SqlCommand(selectPeliculas, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                 List<Pelicula> peliculas = new List<Pelicula>();
+
+                 while (reader.Read())
+                 {
+                  peliculas.Add(new Pelicula(Convert.ToInt32(reader[0].ToString()),reader[1].ToString(),reader[2].ToString(),Convert.ToInt32(reader[3].ToString()),reader[4].ToString()));
+                 connection.Close();
+                 }
+
+                foreach (var pelicula in peliculas)
+                {
+                     if (pelicula.EdadRecomendada == edadAños)
+                     {
+                        Console.WriteLine("***************************************************");
+                        Console.WriteLine($"Titulo {pelicula.Titulo} ");
+                        Console.WriteLine($"Titulo {pelicula.Sinopsis} ");
+                        Console.WriteLine($"Titulo {pelicula.EdadRecomendada} ");
+                        Console.WriteLine($"Titulo {pelicula.Estado} ");
+                        Console.WriteLine("***************************************************");
+                      }
+                }
+
+
+
+
+
+
+
+
         }
-
-
-
     }
-}
+
+
+ }
+
  
     
 
+
+
+                //if (FechaNacimiento.Year < 2001)
+                //{
+                //    string selectMayoresDe18 = $"SELECT  * FROM Peliculas WHERE  {FechaNacimiento.Year} < 2001";
+                //    SqlCommand command1 = new SqlCommand(selectMayoresDe18, connection);
+                //    connection.Open();
+                //}
+
+                //else if (FechaNacimiento.Year > 2001 && FechaNacimiento.Year < 2004)
+                //{
+
+                //    string selectEdadesDe16a18 = $"SELECT  * FROM Peliculas WHERE  {FechaNacimiento.Year} > 2001 AND {FechaNacimiento.Year} < 2004";
+                //    SqlCommand command1 = new SqlCommand(selectEdadesDe16a18, connection);
+                //    connection.Open();
+                //    SqlDataReader reader = command1.ExecuteReader();
+                //        List<Pelicula> peliculas = new List<Pelicula> ;
+
+                //    while (reader.Read())
+                //    {
+                //        peliculas.Add($"{reader[1].ToString()});
+
+
+
+                //        connection.Close();
+                //     }
+
+                // }
+                //else if (FechaNacimiento.Year < 2004)
+
+                //{
+                //    string selectEdadesMenores16 = $"SELECT  * FROM Peliculas WHERE  {FechaNacimiento.Year} > 2004";
+                //    SqlCommand command1 = new SqlCommand(selectEdadesMenores16, connection);
+                //    connection.Open();
+                //    SqlDataReader reader = command1.ExecuteReader();
+                //    while (reader.Read())
+                //     {
+                //    Console.WriteLine($"{reader[0].ToString()} {reader[1].ToString()}");
+
+                //    connection.Close();
