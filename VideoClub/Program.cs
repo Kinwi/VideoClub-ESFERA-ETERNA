@@ -10,20 +10,30 @@ namespace VideoClub
 
         public static void Videoclub()
         {
+                
+                // LOGIN VIDEOCLUB
 
-        Videoclub() // LLamada al Menu
-    
-        Console.WriteLine("Bienvenido a la aplicacion interactiva VIDEOCLUB");
-        Console.WriteLine("");
-        Console.WriteLine("MENU");
-        Console.WriteLine("1.Ver Peliculas Disponibles");
-        Console.WriteLine("2.Alquilar Pelicula");
-        Console.WriteLine("3.Mis Alquileres");
-        Console.WriteLine("4.Logout");
-        Console.WriteLine("");
-        Console.WriteLine("");
-        Console.WriteLine("Introduzca el NUMERO asociado a la accion deL MENU");
-        int select = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("VIDEOCLUB LA ESFERA ETERNA");
+                Console.Write("Introduzca su Usuario          ");
+                string usuario = Console.ReadLine();
+                Console.Write("Introduzca su contraseña       ");
+                string contraseña = Console.ReadLine();
+
+               
+                
+                // MENU VIDEOCLUB
+                
+                Console.WriteLine("BienvenidO a el VIDEOCLUB ESFERA ETERNA");
+                Console.WriteLine("");
+                Console.WriteLine("MENU");
+                Console.WriteLine("1.Ver Peliculas Disponibles");
+                Console.WriteLine("2.Alquilar Pelicula");
+                Console.WriteLine("3.Mis Alquileres");
+                Console.WriteLine("4.Logout");
+                Console.WriteLine("");
+                Console.WriteLine("");
+                Console.WriteLine("Introduzca el NUMERO asociado a la accion deL MENU");
+                int select = Convert.ToInt32(Console.ReadLine());
 
         switch (select)
         {
