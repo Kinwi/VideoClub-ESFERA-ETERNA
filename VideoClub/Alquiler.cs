@@ -20,6 +20,21 @@ namespace VideoClub
         public DateTime FechaFinalAlquiler { get; set; }
 
 
+       
+      
+
+
+        // Constructor para metodo MisAlquileres() de la clase Usuario
+
+        public Alquiler(int idAlquiler, int idPelicula, int idUsuario)
+        {
+            IdAlquiler = idAlquiler;
+            IdPelicula = idPelicula;
+            IdUsuario = idUsuario;
+            
+        }
+
+
         // Constructor por defecto de Alquiler 
 
         public Alquiler(){

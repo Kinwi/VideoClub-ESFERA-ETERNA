@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace VideoClub
 {
@@ -43,18 +44,42 @@ namespace VideoClub
             switch (select)
             {
                 case 1:
+
+                    // Expresion para validar que la estructura de un email es correcta
+
+                    String expresion;
+                    expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+
                     Console.WriteLine();
                     Console.WriteLine();
                     Console.WriteLine("                                   LOGIN                        ");
                     Console.WriteLine();
                     Console.Write("          Introduzca su email   ");
                     string email = Console.ReadLine();
+
+                    // Validacion de la estructura del email
+                    if (Regex.IsMatch(email, expresion))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("                                                       El email tiene la estructura correcta");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Login();
+                    }
+                    Console.WriteLine("");
                     Console.Write("         Introduzca su contraseña       ");
+                    
                     string contraseña = Console.ReadLine();
+                  
+                    
                     Usuario usuarioLogin = new Usuario(contraseña, email);
                     Console.Clear();
+                    usuarioLogin = usuarioLogin.ComprobarEmailContraseña();
 
-                    if ((usuarioLogin.ComprobarEmail() == true) && (usuarioLogin.ComprobarContraseña() == true))
+                    if (usuarioLogin != null)
                     {
                         Console.Clear();
                         Videoclub(usuarioLogin);
@@ -69,17 +94,18 @@ namespace VideoClub
 
                 case 2:
 
+                    Console.WriteLine();
                     Console.WriteLine("REGISTRESE COMO NUEVO USUARIO");
                     Console.WriteLine();
-                    Console.Write("Introduzca su Nombre   ");
+                    Console.Write("Introduzca su Nombre  ------------------------------------ ");
                     string nombreRegistro = Console.ReadLine();
-                    Console.Write("Introduzca su Apellido   ");
+                    Console.Write("Introduzca su Apellido -----------------------------------  ");
                     string apellidoRegistro = Console.ReadLine();
-                    Console.Write("Introduzca su Contraseña  ");
+                    Console.Write("Introduzca su Contraseña --------------------------------- ");
                     string contraseñaRegistro = Console.ReadLine();
-                    Console.Write("Introduzca su Email   ");
+                    Console.Write("Introduzca su Email  ------------------------------------- ");
                     string emailRegistro = Console.ReadLine();
-                    Console.Write("Introduzca su Fecha De Nacimiento   ");
+                    Console.Write("Introduzca su Fecha De Nacimiento  ------------------------ ");
                     DateTime fechaNacimientoRegistro = Convert.ToDateTime(Console.ReadLine());
 
 
@@ -141,14 +167,14 @@ namespace VideoClub
              {
                 case 1:
                     Console.WriteLine($"PELICULAS SELECCIONADAS PARA TI ");
-                    usuarioLogin.verPeliculasDisponibles();
+                   usuarioLogin.verPeliculasDisponibles();
                     break;
                 case 2:
-                    //usuarioLogin.alquilarPelicula(); // Metodo para alquilar pelicula
+                    usuarioLogin.alquilarPelicula(); // Metodo para alquilar pelicula
                     break;
 
                 case 3:
-                    //misAquileres(); // Metodo para visualizar peliculas alquiladas
+                    usuarioLogin.misAlquileres(); // Metodo para visualizar peliculas alquiladas
                     break;
 
                 case 4:
