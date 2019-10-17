@@ -107,6 +107,7 @@ namespace VideoClub
             if (command.ExecuteNonQuery() > 0)
             {
                 Console.WriteLine();
+                Console.WriteLine();
                 Console.WriteLine("Gracias por registrarte en el Videoclub ESFERA ETERNA");
                 connection.Close();
                 return true;

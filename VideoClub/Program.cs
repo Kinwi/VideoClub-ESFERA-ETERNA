@@ -111,19 +111,24 @@ namespace VideoClub
 
                     Usuario usuarioRegistro = new Usuario(nombreRegistro, apellidoRegistro,contraseñaRegistro,emailRegistro,fechaNacimientoRegistro);
                     usuarioRegistro.RegistrarUsuario();
-                    break;
-
-                case 3:
-
-                    Console.WriteLine("Gracias por utilizar nuestro Login");
                     Console.Clear();
                     Login();
                     break;
 
-                case 4:
-                  
+                case 3:
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine("********************************************************************");
+                    Console.WriteLine("********************************************************************");
+                    Console.WriteLine("Gracias por utilizar la aplicacion ----Videoclub ESFERA ETERNA---------");
+                    Console.WriteLine("********************************************************************");
+                    Console.WriteLine("********************************************************************");
+                    break;
+                    
                 default:
                     Console.WriteLine("ERROR. Esta opcion no esta disponible en el Menu");
+                    Console.Clear();
+                    Login();
                     break;
             }
 
@@ -166,8 +171,15 @@ namespace VideoClub
             switch (select)
              {
                 case 1:
+
+                    string salir = "";
+                    do { 
                     Console.WriteLine($"PELICULAS SELECCIONADAS PARA TI ");
-                   usuarioLogin.verPeliculasDisponibles();
+                    usuarioLogin.verPeliculasDisponibles();
+                    Console.Clear();
+                    Videoclub(usuarioLogin);
+                    while(salir)
+
                     break;
                 case 2:
                     usuarioLogin.alquilarPelicula(); // Metodo para alquilar pelicula
@@ -178,11 +190,14 @@ namespace VideoClub
                     break;
 
                 case 4:
-                    //logout; //Metodo para realizar el logout
+                    // LOGOUT . Te redirije a la pantalla del Login
+                    Login();
                     break;
 
                 default:
                     Console.WriteLine("ERROR. Esta opcion no esta disponible en el Menu");
+                    Console.Clear();
+                    Videoclub(usuarioLogin);
                     break;
              }
 
