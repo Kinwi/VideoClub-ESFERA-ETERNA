@@ -369,14 +369,14 @@ namespace VideoClub
             }
             else if (opcion == 1)
             {
-
+                Console.Clear();
                Program.Videoclub(usuarioLogin);
 
             }
 
             else if (opcion == 2)
             {
-                Console.Clear();
+               
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Quieres devolver alguna pelicula?");
                 Console.ResetColor();
@@ -409,6 +409,7 @@ namespace VideoClub
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"La pelicula de Id {numeroPelicula} fue devuelta al Videoclub el dia {DateTime.Now}");
                     Console.ResetColor();
+                    misAlquileres(usuarioLogin);
                     connection.Close();
 
 
