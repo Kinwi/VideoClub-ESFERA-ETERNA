@@ -90,15 +90,12 @@ namespace VideoClub
                 connection.Close();
                 return null;
             }
-
-
         }
 
 
-
+        // METODO PARA -- REGISTRAR USUARIO
         public bool RegistrarUsuario()
         {
-
 
             string insertarUsuario = $"INSERT INTO Usuario (Nombre,Apellido,Contraseña,Email,FechaNacimiento) VALUES ('{Nombre}','{Apellido}','{Contraseña}','{Email}','{FechaNacimiento}')";
             SqlCommand command = new SqlCommand(insertarUsuario, connection);
@@ -108,7 +105,10 @@ namespace VideoClub
             {
                 Console.WriteLine();
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Gracias por registrarte en el Videoclub ESFERA ETERNA");
+                Console.ResetColor();
+                Console.ReadKey();
                 connection.Close();
                 return true;
             }
@@ -124,13 +124,17 @@ namespace VideoClub
 
         }
 
+        // METODO - VER LISTADO DE PELICULAS (MENU OPCION 1)
 
-        public void verPeliculasDisponibles()
+        public void verListadoPeliculas(Usuario usuario)
         {
+            // Calculo de la Edad del usuario a traves de la clase "Time Span"
 
             int edadDias = ((TimeSpan)(DateTime.Now - FechaNacimiento)).Days;
             int edadAños = edadDias / 365;
-
+            Console.WriteLine();
+            Console.WriteLine($" Este es el listado de peliculas de  {usuario.Nombre}   {usuario.Apellido}   de  {edadAños}");
+            Console.WriteLine();
 
             string selectPeliculas = $"SELECT  * FROM Pelicula";
             SqlCommand command = new SqlCommand(selectPeliculas, connection);
@@ -147,16 +151,28 @@ namespace VideoClub
 
             foreach (var pelicula in peliculas)
             {
-                if (pelicula.EdadRecomendada <= edadAños && pelicula.Estado == "D")
+                if (pelicula.EdadRecomendada <= edadAños)
                 {
 
                     Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("***************************************************");
-                    Console.WriteLine($"Titulo----- {pelicula.Titulo} ");
-                    Console.WriteLine($"Sinopsis -----{pelicula.Sinopsis} ");
-                    Console.WriteLine($"Edad Recomendada -------- {pelicula.EdadRecomendada} ");
-                    Console.WriteLine($"Estado --------{pelicula.Estado} ");
-                    Console.WriteLine("***************************************************");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write($"Titulo");
+                    Console.ResetColor();
+                    Console.WriteLine($"-------{pelicula.Titulo}");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"Sinopsis");
+                    Console.ResetColor();
+                    Console.WriteLine($" -------{pelicula.Sinopsis} ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"Edad Recomendada");
+                    Console.ResetColor();
+                    Console.WriteLine($"-------- {pelicula.EdadRecomendada} ");
+                    Console.ResetColor();
+                    Console.Write("Estado "); if (pelicula.Estado.ToString().Contains("ND")) { Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("\t ALQUILADA"); Console.ResetColor(); } else { Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\t DISPONIBLE"); Console.ResetColor(); };
                     Console.WriteLine();
                 }
             }
@@ -164,6 +180,7 @@ namespace VideoClub
 
         }
 
+        // METODO ALQUILAR PELICULA . Listado de peliculas disponibles para el usuario (OPCION 2)
         public void alquilarPelicula()
         {
 
@@ -188,76 +205,189 @@ namespace VideoClub
 
             // Se muestran las peliculas "Estado" = D y que entran en los parametros de la  "Edad Recomendada" del Usuario
 
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("PELICULAS PARA ALQUILAR");
+            Console.ResetColor();
+            Console.WriteLine();
+
             foreach (var pelicula in peliculas)
             {
-                if (pelicula.EdadRecomendada <= edadAños)
+                if (pelicula.EdadRecomendada <= edadAños) // Se filtran las peliculas por edad (Peliculas para la edad menor igual a 
                 {
-
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("***************************************************");
-                    Console.WriteLine($"Identificador de Pelicula----- {pelicula.IDPelicula} ");
-                    Console.WriteLine($"Titulo----- {pelicula.Titulo} ");
-                    Console.WriteLine($"Sinopsis -----{pelicula.Sinopsis} ");
-                    Console.WriteLine($"Edad Recomendada -------- {pelicula.EdadRecomendada} ");
-                    Console.WriteLine($"Estado --------{pelicula.Estado} ");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"Id Pelicula");
+                    Console.ResetColor();
+                    Console.WriteLine($"---------------- {pelicula.IDPelicula} ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"Titulo");
+                    Console.ResetColor();
+                    Console.WriteLine($"--------------------- {pelicula.Titulo} ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"Sinopsis ");
+                    Console.ResetColor();
+                    Console.WriteLine($"-----{pelicula.Sinopsis} ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"Edad Recomendada");
+                    Console.ResetColor();
+                    Console.WriteLine($" {pelicula.EdadRecomendada} ");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write($"Estado ");
+                    Console.ResetColor();
+                    Console.WriteLine($"--------{pelicula.Estado} ");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("***************************************************");
+                    Console.ResetColor();
                 }
             }
 
-            connection.Open();
-            Console.WriteLine("Introduzca la pelicula a Alquilar . Ejemplo 3");
-            int peliculaAlquilada = Convert.ToInt32(Console.ReadLine());
-            DateTime fechaAlquiler = DateTime.Now; // Fecha Alquiler = Fecha Hoy
-            string actualizarAlquiler = $"UPDATE Pelicula SET Estado = 'ND' WHERE IDPelicula = '{peliculaAlquilada}'INSERT INTO Alquiler (IdPelicula,IdUsuario,FechaInicialAlquiler) VALUES ('{peliculaAlquilada}','{iDUsuario}','{fechaAlquiler}')";
-            SqlCommand command2 = new SqlCommand(actualizarAlquiler, connection);
-            Console.WriteLine(command2.ExecuteNonQuery());
-            connection.Close();
+
 
         }
 
+        // METOPO PARA VER LOS ALQUILERES YA REALIZADOS     OPCION 3 MENU VIDEOCLUB ESFERA ETERNA
         public void misAlquileres()
         {
             int iDUsuario = IDUsuario;
 
-            string selectAlquileres = $"SELECT A.IdAlquiler,A.IdUsuario,A.IdPelicula,P.Titulo,A.FechaFinalAlquiler FROM Pelicula P ,Alquiler A Where P.IDPelicula = A.IdAlquiler "; 
+            string selectAlquileres = $"SELECT A.IdAlquiler,A.IdUsuario,A.IdPelicula,P.Titulo,A.FechaInicialAlquiler FROM Pelicula P ,Alquiler A Where P.IDPelicula = A.IdAlquiler ";
             SqlCommand command = new SqlCommand(selectAlquileres, connection);
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
             List<Alquiler> alquileres = new List<Alquiler>();
             List<string> titulos = new List<string>();
-          
+
             while (reader.Read())
-            {   
-                alquileres.Add(new Alquiler(Convert.ToInt32(reader[0].ToString()), Convert.ToInt32(reader[1].ToString()), Convert.ToInt32(reader[2].ToString())));
+            {
+                alquileres.Add(new Alquiler(Convert.ToInt32(reader[0].ToString()), Convert.ToInt32(reader[1].ToString()), Convert.ToInt32(reader[2].ToString()), Convert.ToDateTime(reader[4].ToString())));
                 // Titulo de pelicula
                 titulos.Add(reader[3].ToString());
             }
             connection.Close();
 
             // Se muestran los alquilers del usuario con la "FechaFinalAlquiler"
-
-            Console.WriteLine("---------------MIS ALQUILERES-----------------------");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("      MIS ALQUILERES          ");
+            Console.ResetColor();
             int a = 0;
             foreach (var alquiler in alquileres)
             {
-                Console.WriteLine("");
-                Console.WriteLine("---------------------------------------------------------------");
-                Console.WriteLine("");
-                Console.WriteLine($"Id Alquiler                           {alquiler.IdAlquiler}   ");
-                Console.WriteLine($"ID Usuario                            {alquiler.IdPelicula}   ");
-                Console.WriteLine($"ID Pelicula                           {alquiler.IdUsuario}   ");
-                Console.WriteLine($"ID Titulo                             {titulos[a]}");
-                Console.WriteLine($"Fecha Devolucion Pelicula             {alquiler.FechaFinalAlquiler}");
-                Console.WriteLine("");
-                Console.WriteLine("----------------------------------------------------------------");
+                DateTime fechaInicialAlquiler = alquiler.FechaInicialAlquiler;
+                DateTime fechaFinalAlquiler = DateTime.Now;
+                TimeSpan intervaloDias = fechaFinalAlquiler - fechaInicialAlquiler;
+                int dias = intervaloDias.Days;
+
+                if (dias >= 4)
+                {
+
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("---------------------------------------------------------------");
+                    Console.ResetColor();
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write($"Id Alquiler");
+                    Console.ResetColor();
+                    Console.WriteLine("$           {alquiler.IdAlquiler}   ");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write($"ID Usuario");
+                    Console.ResetColor();
+                    Console.WriteLine($"         {alquiler.IdPelicula}");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write($"ID Pelicula");
+                    Console.ResetColor();
+                    Console.WriteLine($"       {alquiler.IdUsuario}");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write($"ID Titulo");
+                    Console.ResetColor();
+                    Console.WriteLine($"         {titulos[a]}");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write($"Fecha alquiler");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($" --------------{alquiler.FechaInicialAlquiler}");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("----------------------------------------------------------------");
+                    Console.ResetColor();
+
+                }
+                else
+                {
+
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("---------------------------------------------------------------");
+                    Console.ResetColor();
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($"Id Alquiler");
+                    Console.ResetColor();
+                    Console.WriteLine($"--------------{alquiler.IdAlquiler}   ");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($"ID Usuario");
+                    Console.ResetColor();
+                    Console.WriteLine($"---------------{alquiler.IdPelicula}");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($"ID Pelicula");
+                    Console.ResetColor();
+                    Console.WriteLine($"---------------{alquiler.IdUsuario}");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($"ID Titulo");
+                    Console.ResetColor();
+                    Console.WriteLine($"-----------------{titulos[a]}");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($"Fecha alquiler");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"        EN FECHA------{alquiler.FechaInicialAlquiler}");
+                    Console.ResetColor();
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("----------------------------------------------------------------");
+                    Console.ResetColor();
+
+                }
                 a++;
             }
 
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(" Pulse 0 VOLVER LOGIN----Pulse 1 para - Volver a la lista -mMIS ALQUILERES- ---Pulse 2 para - DEVOLVER PELICULA - *");
+            Console.ResetColor();
+            Console.WriteLine();
 
-            Console.WriteLine("Quieres devolver alguna pelicula?");
+            int opcion = Convert.ToInt32(Console.ReadLine());
+
+            if (opcion == 0)
+            {
+                Console.Clear();
+                Program.Login();
+            }
+            else if (opcion == 1)
+            {
+
+                misAlquileres();
+
+            }
+
+            else if (opcion == 2)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Quieres devolver alguna pelicula?");
+                Console.ResetColor();
+                Console.WriteLine();
+                Console.WriteLine();
+            }
+
             int numeroPelicula = Convert.ToInt32(Console.ReadLine());
 
-            bool alquilerEncontrado= false;
-            
+            bool alquilerEncontrado = false;
+
             for (int i = 0; i < alquileres.Count; i++)
             {
                 if (alquileres[i].IdAlquiler == numeroPelicula)
@@ -265,84 +395,62 @@ namespace VideoClub
                     alquilerEncontrado = true;
 
                 }
-                
+
             }
             if (alquilerEncontrado)
             {
-                string peliculaDisponible = $"Update Pelicula Set Estado = 'D' Where IDPelicula = {numeroPelicula} Update Alquiler Set FechaFinalAlquiler = '{DateTime.Now}' Where IdPelicula= {numeroPelicula}" ;
+                string peliculaDisponible = $"Update Pelicula Set Estado = 'D' Where IDPelicula = {numeroPelicula} Update Alquiler Set FechaFinalAlquiler = '{DateTime.Now}' Where IdPelicula= {numeroPelicula}";
                 SqlCommand command1 = new SqlCommand(peliculaDisponible, connection);
-               connection.Open();
+                connection.Open();
 
                 if (command1.ExecuteNonQuery() > 0)
                 {
                     Console.WriteLine();
-                    Console.WriteLine("La pelicula fue devuelta al Videoclub y la fecha de devolucion fue a parar a alquileres");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"La pelicula de Id {numeroPelicula} fue devuelta al Videoclub el dia {DateTime.Now}");
+                    Console.ResetColor();
                     connection.Close();
-                    
+
+
+                }
+
+
+                else
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Error. La pelicula no esta disponible en tus alquileres");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    misAlquileres();
+
 
                 }
             }
 
+
+
+
+
             else
             {
-                Console.WriteLine("Error. La pelicula no esta disponible en tus alquileres");
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error.La opcion escogida no esta disponible");
+                Console.ResetColor();
+                Console.WriteLine();
 
 
             }
-
-
         }
-
     }
- }
+
+ } 
+
+ 
 
 
 
 
 
 
-//if (FechaNacimiento.Year < 2001)
-//{
-//    string selectMayoresDe18 = $"SELECT  * FROM Peliculas WHERE  {FechaNacimiento.Year} < 2001";
-//    SqlCommand command1 = new SqlCommand(selectMayoresDe18, connection);
-//    connection.Open();
-//}
-
-//else if (FechaNacimiento.Year > 2001 && FechaNacimiento.Year < 2004)
-//{
-
-//    string selectEdadesDe16a18 = $"SELECT  * FROM Peliculas WHERE  {FechaNacimiento.Year} > 2001 AND {FechaNacimiento.Year} < 2004";
-//    SqlCommand command1 = new SqlCommand(selectEdadesDe16a18, connection);
-//    connection.Open();
-//    SqlDataReader reader = command1.ExecuteReader();
-//        List<Pelicula> peliculas = new List<Pelicula> ;
-
-//    while (reader.Read())
-//    {
-//        peliculas.Add($"{reader[1].ToString()});
-
-
-
-//        connection.Close();
-//     }
-
-// }
-//else if (FechaNacimiento.Year < 2004)
-
-//{
-//    string selectEdadesMenores16 = $"SELECT  * FROM Peliculas WHERE  {FechaNacimiento.Year} > 2004";
-//    SqlCommand command1 = new SqlCommand(selectEdadesMenores16, connection);
-//    connection.Open();
-//    SqlDataReader reader = command1.ExecuteReader();
-//    while (reader.Read())
-//     {
-//    Console.WriteLine($"{reader[0].ToString()} {reader[1].ToString()}");
-
-//    connection.Close();
-
-
-//string selectPeliculas = $"select Alquiler.IdPelicula,Pelicula.Titulo,Alquiler.FechaFinalAlquiler FROM Alquiler INNER JOIN Pelicula ON Alquiler.IdPelicula = Pelicula.IDPelicula WHERE Alquiler.IdUsuario ='{iDUsuario}'";
-
-//SELECT A. FROM PELICULAS P, ALQUILERES A WHERE P.ID = A.PELICULAID AND 
-
-// Esta funciona string selectAlquileres = $"SELECT  IdAlquiler,IdPelicula,IdUsuario,FechaFinalAlquiler FROM Alquiler WHERE IdUsuario = iDUsuario"; 

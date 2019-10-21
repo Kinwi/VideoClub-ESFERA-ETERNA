@@ -34,6 +34,4 @@ namespace VideoClub
 
        
     }
-
-    // Posibles metodos a utilizar
 }

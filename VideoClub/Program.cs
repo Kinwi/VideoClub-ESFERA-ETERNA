@@ -13,9 +13,6 @@ namespace VideoClub
         {
             // LLamada al Login
             Login();
-
-            
-
         }
 
         // Metodo - MENU LOGIN -
@@ -26,176 +23,319 @@ namespace VideoClub
 
             Console.WriteLine();
             Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("                                       LOGIN VIDEOCLUB ESFERA");
+            Console.ResetColor();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("                                                MENU");
+            Console.WriteLine();
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("                                          1.Iniciar Sesion");
+            Console.WriteLine();
             Console.WriteLine("                                           2.Registrese");
+            Console.WriteLine();
             Console.WriteLine("                                              3.Salir");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("              *Introduzca el numero asociado a cada accion. Ejemplo : Ver Peliculas Disponibles (1)");
+            Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("                               Introduca el numero asociado a la accion");
-            Console.WriteLine("                     Iniciar Sesion (1)-------------Registrese(2)----------Salir(3)");
+            
 
-            int select = Convert.ToInt32(Console.ReadLine());
-            Console.Clear();
-
-            switch (select)
+            int select;
+            try
             {
-                case 1:
+                  select = Convert.ToInt32(Console.ReadLine());
+                Console.Clear(); ;
+                switch (select)
+                {
+                    case 1:
 
-                    // Expresion para validar que la estructura de un email es correcta
+                        // Expresion para validar que la estructura de un email es correcta
 
-                    String expresion;
-                    expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+                        String expresion;
+                        expresion = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
 
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Console.WriteLine("                                   LOGIN                        ");
-                    Console.WriteLine();
-                    Console.Write("          Introduzca su email   ");
-                    string email = Console.ReadLine();
-
-                    // Validacion de la estructura del email
-                    if (Regex.IsMatch(email, expresion))
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write("                                                       El email tiene la estructura correcta");
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("                                   LOGIN                        ");
                         Console.ResetColor();
-                    }
-                    else
-                    {
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("          Introduzca su email   ");
+                        Console.ResetColor();
+                        string email = Console.ReadLine();
+
+                        // Validacion de la estructura del email
+                        if (Regex.IsMatch(email, expresion))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("                                                       El email tiene la estructura correcta");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Login();
+                        }
+                        Console.WriteLine("");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("         Introduzca su contraseña       ");
+                        Console.ResetColor();
+
+                        string contraseña = Console.ReadLine();
+
+
+                        Usuario usuarioLogin = new Usuario(contraseña, email);
+                        Console.Clear();
+                        usuarioLogin = usuarioLogin.ComprobarEmailContraseña();
+
+                        if (usuarioLogin != null)
+                        {
+                            Console.Clear();
+                            Videoclub(usuarioLogin);
+                        }
+
+                        else
+                        {
+                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("ERROR. Usuario / Contraseña   Incorrectos");
+                            Console.ResetColor();
+                            Console.WriteLine();
+                            Console.Clear();
+                            Login();
+                        }
+
+                        break;
+
+                    case 2:
+
+                        // Expresion para validar que la estructura de un email es correcta
+
+                        String expresion1;
+                        expresion1 = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+
+                        Console.WriteLine();
+                        Console.WriteLine("REGISTRESE COMO NUEVO USUARIO");
+                        Console.WriteLine();
+                        Console.Write("Introduzca su Nombre  ------------------------------------ ");
+                        string nombreRegistro = Console.ReadLine();
+                        Console.Write("Introduzca su Apellido -----------------------------------  ");
+                        string apellidoRegistro = Console.ReadLine();
+                        Console.Write("Introduzca su Contraseña --------------------------------- ");
+                        string contraseñaRegistro = Console.ReadLine();
+                        Console.Write("Introduzca su Email  ------------------------------------- ");
+
+                        //Validar estructura de Email con Regex
+                        string emailRegistro = Console.ReadLine();
+                        if (Regex.IsMatch(emailRegistro, expresion1))
+                        {
+                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write(" El email tiene la estructura correcta");
+                            Console.WriteLine();
+                            Console.ResetColor();
+                            Console.WriteLine();
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(" ERROR!!!! El Email no tiene la estructura correcta");
+                            Console.ResetColor();
+                            Console.ReadKey();
+                            Console.Clear();
+                            Login();
+
+                        }
+
+                        Console.Write("Introduzca su Fecha De Nacimiento  ------------------------ ");
+
+                        // Captura la excepcion "FormatException" de Datetime "fechaNacimientoRegistro"
+
+                        try
+                        {
+                            DateTime fechaNacimientoRegistro = Convert.ToDateTime(Console.ReadLine());
+
+                            Usuario usuarioRegistro = new Usuario(nombreRegistro, apellidoRegistro, contraseñaRegistro, emailRegistro, fechaNacimientoRegistro);
+                            usuarioRegistro.RegistrarUsuario();
+                            Console.Clear();
+                            Login();
+
+                        }
+                        catch (FormatException)
+
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine();
+                            Console.WriteLine("ERROR!!!! No introduzca fechas con valores incorrectos. ");
+                            Console.WriteLine("Pulse cualquier tecla para volver al --MENU LOGIN--");
+                            Console.WriteLine();
+                            Console.ResetColor();
+                            Console.ReadKey();
+                            Console.Clear();
+                            Login();
+                        }
+
+                        break;
+
+                    case 3:
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("********************************************************************");
+                        Console.WriteLine("********************************************************************");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("Gracias por utilizar la aplicacion ----Videoclub ESFERA ETERNA------");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("********************************************************************");
+                        Console.WriteLine("********************************************************************");
+                        Console.ResetColor();
+                        break;
+
+                    default:
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("ERROR. Esta opcion no esta disponible en el Menu");
+                        Console.ResetColor();
+                        Console.ReadKey();
                         Console.Clear();
                         Login();
-                    }
-                    Console.WriteLine("");
-                    Console.Write("         Introduzca su contraseña       ");
-                    
-                    string contraseña = Console.ReadLine();
-                  
-                    
-                    Usuario usuarioLogin = new Usuario(contraseña, email);
-                    Console.Clear();
-                    usuarioLogin = usuarioLogin.ComprobarEmailContraseña();
+                        break;
+                }
 
-                    if (usuarioLogin != null)
-                    {
-                        Console.Clear();
-                        Videoclub(usuarioLogin);
-                    }
-
-                    else
-                    {
-                        Login();
-                    }
-
-                    break;
-
-                case 2:
-
-                    Console.WriteLine();
-                    Console.WriteLine("REGISTRESE COMO NUEVO USUARIO");
-                    Console.WriteLine();
-                    Console.Write("Introduzca su Nombre  ------------------------------------ ");
-                    string nombreRegistro = Console.ReadLine();
-                    Console.Write("Introduzca su Apellido -----------------------------------  ");
-                    string apellidoRegistro = Console.ReadLine();
-                    Console.Write("Introduzca su Contraseña --------------------------------- ");
-                    string contraseñaRegistro = Console.ReadLine();
-                    Console.Write("Introduzca su Email  ------------------------------------- ");
-                    string emailRegistro = Console.ReadLine();
-                    Console.Write("Introduzca su Fecha De Nacimiento  ------------------------ ");
-                    DateTime fechaNacimientoRegistro = Convert.ToDateTime(Console.ReadLine());
-
-
-                    Usuario usuarioRegistro = new Usuario(nombreRegistro, apellidoRegistro,contraseñaRegistro,emailRegistro,fechaNacimientoRegistro);
-                    usuarioRegistro.RegistrarUsuario();
-                    Console.Clear();
-                    Login();
-                    break;
-
-                case 3:
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Console.WriteLine("********************************************************************");
-                    Console.WriteLine("********************************************************************");
-                    Console.WriteLine("Gracias por utilizar la aplicacion ----Videoclub ESFERA ETERNA---------");
-                    Console.WriteLine("********************************************************************");
-                    Console.WriteLine("********************************************************************");
-                    break;
-                    
-                default:
-                    Console.WriteLine("ERROR. Esta opcion no esta disponible en el Menu");
-                    Console.Clear();
-                    Login();
-                    break;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR!!!!. No hay ninguna accion al menu asociada a una letra o palabra");
+                Console.ResetColor();
+                Console.ReadKey();
+                Console.Clear();
+                Login();
             }
 
 
+            }
 
+            // METODO - MENU VIDEOCLUB -
 
-
-
-          
-
-
-        }
-
-        // METODO - MENU VIDEOCLUB -
-
-        public static void Videoclub(Usuario usuarioLogin)
+            public static void Videoclub(Usuario usuarioLogin)
         {
 
-
-
-
-
             // MENU VIDEOCLUB
+
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.WriteLine("                          Bienvenido a el VIDEOCLUB ESFERA ETERNA");
-                Console.WriteLine("");
-                Console.WriteLine("                                          MENU");
-                Console.WriteLine("                             1.Ver Peliculas Disponibles");
-                Console.WriteLine("                                 2.Alquilar Pelicula");
-                Console.WriteLine("                                   3.Mis Alquileres");
-                Console.WriteLine("                                        4.Logout");
-                Console.WriteLine("");
-                Console.WriteLine("");
-                Console.WriteLine("                               Introduca el numero asociado a la accion");
                 Console.WriteLine();
-                Console.WriteLine("  Ver Peliculas Disponibles (1)-------------AlquilarPeliculas(2)----------Mis Alquileres(3)--------Logout(4)");
-            int select = Convert.ToInt32(Console.ReadLine());
-            Console.Clear();
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("                             Bienvenido a el VIDEOCLUB ESFERA ETERNA");
+                Console.WriteLine();
+                Console.WriteLine("");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("                                            MENU");
+                Console.WriteLine();
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("                                  1.Ver Listado de  Peliculas");
+                Console.WriteLine();
+                Console.WriteLine("                                    2.Alquilar Pelicula");
+                Console.WriteLine();
+                Console.WriteLine("                                     3.Mis Alquileres");
+                Console.WriteLine();
+                Console.WriteLine("                                         4.Logout");
+                Console.ResetColor();
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("        *Introduzca el numero asociado a cada accion. Ejemplo : Ver Peliculas Disponibles (1)");
+                Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                int select = Convert.ToInt32(Console.ReadLine());
+                //Console.Clear();
+
+
             switch (select)
              {
                 case 1:
-
-                    string salir = "";
-                    do { 
-                    Console.WriteLine($"PELICULAS SELECCIONADAS PARA TI ");
-                    usuarioLogin.verPeliculasDisponibles();
+                    
+                    // 1. VER PELICULAS DISPONIBLES
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("LISTADO PELICULAS VIDEOCLUB - ESFERA ETERNA -");
+                    Console.ResetColor();
+                    usuarioLogin.verListadoPeliculas(usuarioLogin);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Pulse cualquier tecla para volver al - Menu Videoclub ESFERA ETERNA");
+                    Console.ResetColor();
+                    Console.ReadKey();
                     Console.Clear();
                     Videoclub(usuarioLogin);
-                    while(salir)
-
+             
                     break;
                 case 2:
+
+                    // 2. ALQUILAR PELICULA
+                    Console.Clear();
                     usuarioLogin.alquilarPelicula(); // Metodo para alquilar pelicula
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine();
+                    Console.WriteLine("Pulse 0 para -Volver al Menu del Videoclub   Pulse Cualquier otra tecla para - Alquilar Pelicula -"  );
+                    int volverMenu = Convert.ToInt32(Console.ReadLine());
+                    Console.ResetColor();
+                    if (volverMenu == 0)
+                    {
+                        Console.Clear();
+                        Videoclub(usuarioLogin);
+
+                    }
+                    if (volverMenu ==1)
+                    {
+                        connection.Open();
+                        Console.WriteLine("Introduzca la pelicula a Alquilar . Ejemplo 3");
+                        int peliculaAlquilada = Convert.ToInt32(Console.ReadLine());
+                        DateTime fechaAlquiler = DateTime.Now; // Fecha Alquiler = Fecha Hoy
+                        string actualizarAlquiler = $"UPDATE Pelicula SET Estado = 'ND' WHERE IDPelicula = '{peliculaAlquilada}'INSERT INTO Alquiler (IdPelicula,IdUsuario,FechaInicialAlquiler) VALUES ('{peliculaAlquilada}','{usuarioLogin.IDUsuario}','{fechaAlquiler}')";
+                        SqlCommand command2 = new SqlCommand(actualizarAlquiler, connection);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("$Ha alquilado la pelicula +  {peliculaAlquilada} + del catalogo ");
+                        Console.ResetColor();
+                        connection.Close();
+                    }
+
+                   
+
                     break;
 
                 case 3:
+                    // 3. MIS ALQUILERES
+                    Console.Clear();
                     usuarioLogin.misAlquileres(); // Metodo para visualizar peliculas alquiladas
                     break;
 
                 case 4:
                     // LOGOUT . Te redirije a la pantalla del Login
+                    Console.Clear();
                     Login();
                     break;
 
                 default:
-                    Console.WriteLine("ERROR. Esta opcion no esta disponible en el Menu");
+                    //Console.WriteLine("ERROR. Esta opcion no esta disponible en el Menu");
                     Console.Clear();
                     Videoclub(usuarioLogin);
                     break;
