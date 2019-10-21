@@ -126,15 +126,26 @@ namespace VideoClub
                         expresion1 = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
 
                         Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine("REGISTRESE COMO NUEVO USUARIO");
+                        Console.ResetColor();
                         Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("Introduzca su Nombre  ------------------------------------ ");
+                        Console.ResetColor();
                         string nombreRegistro = Console.ReadLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("Introduzca su Apellido -----------------------------------  ");
+                        Console.ResetColor();
                         string apellidoRegistro = Console.ReadLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("Introduzca su Contraseña --------------------------------- ");
+                        Console.ResetColor();
                         string contraseñaRegistro = Console.ReadLine();
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("Introduzca su Email  ------------------------------------- ");
+                        Console.ResetColor();
+
 
                         //Validar estructura de Email con Regex
                         string emailRegistro = Console.ReadLine();
@@ -158,8 +169,9 @@ namespace VideoClub
 
                         }
 
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("Introduzca su Fecha De Nacimiento  ------------------------ ");
-
+                        Console.ResetColor();
                         // Captura la excepcion "FormatException" de Datetime "fechaNacimientoRegistro"
 
                         try
@@ -325,7 +337,7 @@ namespace VideoClub
                 case 3:
                     // 3. MIS ALQUILERES
                     Console.Clear();
-                    usuarioLogin.misAlquileres(); // Metodo para visualizar peliculas alquiladas
+                    usuarioLogin.misAlquileres(usuarioLogin); // Metodo para visualizar peliculas alquiladas
                     break;
 
                 case 4:

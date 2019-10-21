@@ -249,7 +249,7 @@ namespace VideoClub
         }
 
         // METOPO PARA VER LOS ALQUILERES YA REALIZADOS     OPCION 3 MENU VIDEOCLUB ESFERA ETERNA
-        public void misAlquileres()
+        public void misAlquileres(Usuario usuarioLogin)
         {
             int iDUsuario = IDUsuario;
 
@@ -291,19 +291,19 @@ namespace VideoClub
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($"Id Alquiler");
                     Console.ResetColor();
-                    Console.WriteLine("$           {alquiler.IdAlquiler}   ");
+                    Console.WriteLine($" --------------{alquiler.IdAlquiler}");
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($"ID Usuario");
                     Console.ResetColor();
-                    Console.WriteLine($"         {alquiler.IdPelicula}");
+                    Console.WriteLine($" --------------{alquiler.IdPelicula}");
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($"ID Pelicula");
                     Console.ResetColor();
-                    Console.WriteLine($"       {alquiler.IdUsuario}");
+                    Console.WriteLine($" --------------{alquiler.IdUsuario}");
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($"ID Titulo");
                     Console.ResetColor();
-                    Console.WriteLine($"         {titulos[a]}");
+                    Console.WriteLine($" --------------{titulos[a]}");
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write($"Fecha alquiler");
                     Console.ResetColor();
@@ -356,7 +356,7 @@ namespace VideoClub
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(" Pulse 0 VOLVER LOGIN----Pulse 1 para - Volver a la lista -mMIS ALQUILERES- ---Pulse 2 para - DEVOLVER PELICULA - *");
+            Console.WriteLine(" Pulse 0 VOLVER LOGIN----Pulse 1 para - Volver al Menu del Videoclub ---Pulse 2 para - DEVOLVER PELICULA - *");
             Console.ResetColor();
             Console.WriteLine();
 
@@ -370,7 +370,7 @@ namespace VideoClub
             else if (opcion == 1)
             {
 
-                misAlquileres();
+               Program.Videoclub(usuarioLogin);
 
             }
 
@@ -422,7 +422,7 @@ namespace VideoClub
                     Console.WriteLine("Error. La pelicula no esta disponible en tus alquileres");
                     Console.ResetColor();
                     Console.WriteLine();
-                    misAlquileres();
+                    misAlquileres(usuarioLogin);
 
 
                 }
